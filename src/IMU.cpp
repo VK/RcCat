@@ -478,6 +478,9 @@ bool IMU::loop()
     ax = (float)accelCount[0]*aRes - accelBias[0];  // get actual g value, this depends on scale being set
     ay = (float)accelCount[1]*aRes - accelBias[1];
     az = (float)accelCount[2]*aRes - accelBias[2];
+    a_x = ax;
+    a_y = ay;
+    a_z = az;
     a_tot = sqrt(ax*ax + ay*ay + az*az);
 
 
@@ -533,4 +536,20 @@ bool IMU::loop()
   float IMU::getAtot()
   {
     return a_tot;
+  }
+
+
+  float IMU::getAx()
+  {
+    return a_x;
+  }
+
+  float IMU::getAy()
+  {
+    return a_y;
+  }
+
+  float IMU::getAz()
+  {
+    return a_z;
   }

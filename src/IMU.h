@@ -56,11 +56,17 @@ class IMU
     float pitch;
     float roll;
     float a_tot;
+    float a_x;
+    float a_y;
+    float a_z;
 
   public:
      float getPitch();
      float getRoll();
      float getAtot();
+     float getAx();
+     float getAy();
+     float getAz();
 
 
 };

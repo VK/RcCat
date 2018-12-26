@@ -55,10 +55,10 @@ namespace RcCat
       jump_speed_PID.Compute(timer_mem[MEMORY_LENGTH-1]);
 
 
-      Serial.print(jump_pitch);
+      /*Serial.print(jump_pitch);
       Serial.print("\t");
       Serial.println(jump_accel_value);
-
+      */
 
       steering.writeMicroseconds(1400);
 

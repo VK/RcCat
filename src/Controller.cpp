@@ -100,15 +100,19 @@ namespace RcCat
 
   volatile void Controller::updateSteering(int microseconds)
   {
-    if(controller.driveState == DriveStateType::normal )
+    //initial bridge input
+    controller.steering.writeMicroseconds(1400 - (microseconds-1500));
+    /*if(controller.driveState == DriveStateType::normal )
     {
       controller.steering.writeMicroseconds(1400 - controller.steering_ratio * (microseconds-1500));
-    }
+    }*/
   }
 
   volatile void Controller::updateAcceleration(int microseconds)
   {
-    if(controller.driveState == DriveStateType::normal)
+    //initial bridge input
+    controller.acceleration.writeMicroseconds(microseconds);
+    /*if(controller.driveState == DriveStateType::normal)
     {
       if(controller.acceleration_ratio == 1.0f)
       {
@@ -117,6 +121,7 @@ namespace RcCat
         controller.acceleration.writeMicroseconds(1500 + controller.acceleration_ratio * (microseconds-1500));
       }
     }
+    */
   }
 
   void Controller::collectData()
@@ -133,6 +138,9 @@ namespace RcCat
 
     //add new values
     a_tot =  imu.getAtot()*100;
+    ax_mem = imu.getAx()*100;
+    ay_mem = imu.getAy()*100;
+    az_mem = imu.getAz()*100;
     a_tot_mem[MEMORY_LENGTH-1] = a_tot;
     groundDist_mem[MEMORY_LENGTH-1] = rangeFinder.getDistance();
     timer_mem[MEMORY_LENGTH-1] = timer.getCount();
@@ -159,6 +167,69 @@ namespace RcCat
 
     steering_receiver = receiver.getMicroseconds(0)-1500;
     acceleration_receiver = receiver.getMicroseconds(1)-1500;
+
+  }
+
+
+  void Controller::writeData()
+  {
+    //time
+    //Serial.print(timer_mem[MEMORY_LENGTH-1]);
+    //Serial.print("\t");
+
+    //receiver_input
+    Serial.print(steering_receiver);
+    Serial.print("\t");
+    Serial.print(acceleration_receiver);
+    Serial.print("\t");
+
+    //acceleration_directed
+    Serial.print(ax_mem);
+    Serial.print("\t");
+    Serial.print(ay_mem);
+    Serial.print("\t");
+    Serial.print(az_mem);
+    Serial.print("\t");
+
+    //gyro_input
+    Serial.print(a_tot_mem[MEMORY_LENGTH-1]);
+    Serial.print("\t");
+    Serial.print(pitch_mem[MEMORY_LENGTH-1]);
+    Serial.print("\t");
+    Serial.print(roll_mem[MEMORY_LENGTH-1]);
+    Serial.print("\t");
+
+    //pitch and roll change
+    Serial.print("\t");
+    Serial.print(pitch_mem[MEMORY_LENGTH-1] - pitch_mem[MEMORY_LENGTH-2]);
+    Serial.print("\t");
+    Serial.print(roll_mem[MEMORY_LENGTH-1] - roll_mem[MEMORY_LENGTH-2]);
+    Serial.print("\t");
+
+
+    //dist_sensor_input
+    Serial.print(groundDist_mem[MEMORY_LENGTH-1]);
+    Serial.print("\t");
+
+
+    //motor_speed
+    Serial.print(  speed );
+    Serial.print("\t");
+
+
+    //servo_last_values
+    Serial.print(  1400 - steering.readMicroseconds()  );
+    Serial.print("\t");
+    Serial.print(  acceleration.readMicroseconds() - 1500);
+    Serial.print("\t");
+
+
+    //drive_state
+    Serial.println(driveState);
+
+
+
+
 
   }
 
@@ -202,21 +273,8 @@ namespace RcCat
 
 
 
-/*
-    Serial.print(steering_receiver);
-    Serial.print("\t");
-    Serial.print(acceleration_receiver);
-    Serial.print("\t");
-    Serial.print(acceleration_ratio);
-    Serial.print("\t");
-    Serial.print(roll_av);
-    Serial.print("\t");
-    Serial.print(  groundDist_mem[MEMORY_LENGTH-1] );
-    Serial.print("\t");
-    Serial.print(  speed );
-    Serial.print("\t");
-    Serial.println(  dspeed );
-*/
+    writeData();
+
 
 
   }

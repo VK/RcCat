@@ -42,6 +42,10 @@ namespace RcCat
     int roll_mem[MEMORY_LENGTH];
     int groundDist_mem[MEMORY_LENGTH];
     unsigned long timer_mem[MEMORY_LENGTH];
+    int ax_mem;
+    int ay_mem;
+    int az_mem;
+
     unsigned long max_flip_time;
     int start_fly_pitch;
 
@@ -80,6 +84,8 @@ namespace RcCat
     void startNormal();
     void startJumping();
     void startFalling();
+
+    void writeData();
 
   };
 

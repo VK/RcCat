@@ -83,7 +83,7 @@
 
 
 
-#define MAX_SAME_DIST_TILL_RESTART 40
+#define MAX_SAME_DIST_TILL_RESTART 1000
 
 namespace RcCat
 {
@@ -102,6 +102,7 @@ namespace RcCat
 
     data = getRegister(VL6180X_SYSTEM_FRESH_OUT_OF_RESET);
 
+    Serial.print("# Range Finger  setup: ");
     Serial.println(data);
 
     if(data != 1) return VL6180x_FAILURE_RESET;
@@ -156,7 +157,7 @@ namespace RcCat
     setRegister(VL6180X_SYSRANGE_VHV_RECALIBRATE, 0x01); // perform a single temperature calibration
     //Optional settings from datasheet
     //http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf
-    setRegister(VL6180X_SYSRANGE_INTERMEASUREMENT_PERIOD, 0x00); // Set default ranging inter-measurement period to 0x09 = 100ms  0x00 = 10ms
+    setRegister(VL6180X_SYSRANGE_INTERMEASUREMENT_PERIOD, 0x09); // Set default ranging inter-measurement period to 0x09 = 100ms  0x00 = 10ms
     setRegister(VL6180X_SYSALS_INTERMEASUREMENT_PERIOD, 0x0A); // Set default ALS inter-measurement period to 100ms
     setRegister(VL6180X_SYSTEM_INTERRUPT_CONFIG_GPIO, 0x24); // Configures interrupt on ‘New Sample Ready threshold event’
     //Additional settings defaults from community
@@ -210,6 +211,7 @@ namespace RcCat
 
       distance = getRegister(VL6180X_RESULT_RANGE_VAL);
       last_timer = get_timer;
+
 
       if(distance != old_distance)
       {
