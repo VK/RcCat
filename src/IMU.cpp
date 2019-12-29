@@ -506,10 +506,10 @@ bool IMU::loop()
       deltat = ((Now - lastUpdate)/1000000.0f); // set integration time by time elapsed since last filter update
       lastUpdate = Now;
 
-      MahonyAHRSupdateIMU(gx*PI/180.0f, gy*PI/180.0f, gz*PI/180.0f, ax, ay, az, deltat);
+      MahonyAHRSupdateIMU(gy*PI/180.0f, gx*PI/180.0f, gz*PI/180.0f, ay, ax, az, deltat);
 
-      pitch = -asin(2.0f * (q1 * q3 - q0 * q2));
-      roll  = atan2(2.0f * (q0 * q1 + q2 * q3), q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3);
+      roll = -asin(2.0f * (q1 * q3 - q0 * q2));
+      pitch  = atan2(2.0f * (q0 * q1 + q2 * q3), q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3);
 
 
     } else {

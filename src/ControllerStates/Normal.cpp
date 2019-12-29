@@ -21,7 +21,7 @@ namespace RcCat
     //save_speed_PID.SetOutputLimits(25, 500);
     //turn the PID on
     //save_speed_PID.SetMode(AUTOMATIC);
-
+    
   }
 
 
@@ -46,7 +46,9 @@ namespace RcCat
 
       //optimize acceleration
 
-      acceleration_ratio =  0.175 + 0.125 * tanh( 3.0 - speed) -  0.1 * tanh(1.0-speed*2) ;
+      acceleration_ratio =  0.175 + 0.125 * tanh( 2.0 - speed) -  0.1 * tanh(1.0-speed*2) ;
+     
+      
       if(acceleration_receiver > 50 && pitch_av < -1000.0f)
       {
         acceleration_ratio = min(max(min(1,1.1 + pitch_ch/10.0f ),0.2), acceleration_ratio);

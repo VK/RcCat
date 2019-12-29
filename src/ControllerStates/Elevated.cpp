@@ -20,6 +20,7 @@ namespace RcCat
     max_flip_time =  abs((float)pitch_av * 70.0f);
     max_flip_time += timer_mem[MEMORY_LENGTH-1];
     start_fly_pitch = pitch_av;
+    
     acceleration.writeMicroseconds(1500);
     steering.writeMicroseconds(1400);
 

@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------------------------------
 // Definitions
 
-#define twoKpDef	(2.0f * 0.5f)	// 2 * proportional gain
+#define twoKpDef	(2.0f * 0.9f)	// 2 * proportional gain
 #define twoKiDef	(2.0f * 0.0f)	// 2 * integral gain
 
 //---------------------------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ float invSqrt(float x);
 
 //---------------------------------------------------------------------------------------------------
 // AHRS algorithm update
-
+/*
 void MahonyAHRSupdate(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz, float duration) {
 	float recipNorm;
     float q0q0, q0q1, q0q2, q0q3, q1q1, q1q2, q1q3, q2q2, q2q3, q3q3;
@@ -142,6 +142,7 @@ void MahonyAHRSupdate(float gx, float gy, float gz, float ax, float ay, float az
 	q2 *= recipNorm;
 	q3 *= recipNorm;
 }
+*/
 
 //---------------------------------------------------------------------------------------------------
 // IMU algorithm update

@@ -24,6 +24,8 @@ namespace RcCat
     void setup(int steering_pin, int acceleration_pin);
     void loop();
 
+    void writeHeadData();
+
   public:
     enum DriveStateType { normal = 1, falling = 2, elevated = 3, jumping = 4};
     DriveStateType driveState;
@@ -31,6 +33,7 @@ namespace RcCat
     Servo acceleration;
     float steering_ratio;
     float acceleration_ratio;
+    FILE serial_stdout;
 
   public:
     static volatile void updateSteering(int microseconds);
@@ -38,13 +41,15 @@ namespace RcCat
 
   private:
     int a_tot_mem[MEMORY_LENGTH];
+    int ax_mem[MEMORY_LENGTH];
+    int ay_mem[MEMORY_LENGTH];
+    int az_mem[MEMORY_LENGTH];
+
     int pitch_mem[MEMORY_LENGTH];
     int roll_mem[MEMORY_LENGTH];
     int groundDist_mem[MEMORY_LENGTH];
     unsigned long timer_mem[MEMORY_LENGTH];
-    int ax_mem;
-    int ay_mem;
-    int az_mem;
+
 
     unsigned long max_flip_time;
     int start_fly_pitch;
@@ -86,6 +91,7 @@ namespace RcCat
     void startFalling();
 
     void writeData();
+
 
   };
 

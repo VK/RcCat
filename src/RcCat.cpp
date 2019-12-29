@@ -1,6 +1,8 @@
 #include "RcCat.h"
 
 
+
+
 void setup() {
   Serial.begin(115200);
 
@@ -23,6 +25,7 @@ void setup() {
   RcCat::receiver.attach(8, RcCat::controller.updateAcceleration);
   RcCat::receiver.attachSpeed(7);
 
+  RcCat::controller.writeHeadData();
 }
 
 void loop() {
