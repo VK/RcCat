@@ -1,5 +1,6 @@
 #include "../Controller.h"
 #include "../PID.h"
+#include "../IMU.h"
 
 namespace RcCat
 {
@@ -13,7 +14,7 @@ unsigned long max_break_time = 0;
 PID falling_PID(&flying_pitch, &flying_accel_value, &flying_target_pitch, 20.0, 200.0, .00, DIRECT);
 void Controller::startFalling()
 {
-
+  imu.setKp(0.0);
   Serial.println("startFalling");
   Serial.println(start_fly_pitch);
   if (start_fly_pitch > 2000.0f)

@@ -1,5 +1,6 @@
 #include "../Controller.h"
 #include "../PID.h"
+#include "../IMU.h"
 
 namespace RcCat
 {
@@ -14,6 +15,8 @@ namespace RcCat
 
   void Controller::startJumping()
   {
+    imu.setKp(0.0);
+    
     start_jump_time = timer_mem[MEMORY_LENGTH-1];
     jump_pitch = pitch_mem[MEMORY_LENGTH-1];
     jump_pitch *= pitch_mem[MEMORY_LENGTH-1];
