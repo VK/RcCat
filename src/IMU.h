@@ -27,12 +27,18 @@ class IMU
 
   public:
     void setup(uint8_t  gscale = GFS_2000DPS, uint8_t ascale = AFS_8G);
+    void setKp(float newKp, float scaler = 100.0);
     bool loop();
 
 
   private:
     uint8_t Gscale = GFS_250DPS;
     uint8_t Ascale = AFS_2G;
+
+    float kp = 1.0;
+    float tot_a_scaler = 100.0;
+
+
     float aRes;      // scale resolution for the accelerometer
     float gRes;      // scale resolution per rotation
     float gyroBias[3] = {0, 0, 0}, accelBias[3] = {0, 0, 0};      // Bias corrections for gyro and accelerometer
