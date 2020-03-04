@@ -1,4 +1,4 @@
-<a href="#"><img src="images/logo.png" width="128" height="135" align="right"/></a>
+<a href="#"><img src="images/logo_small.png" width="128" height="135" align="right"/></a>
 
 # VK RcCat
 
@@ -7,9 +7,9 @@
 An automatic driving aid that takes over to land the RC car on all fours.
 
 
-Car top view             |  Car bottom view
-:-----------------------:|:-------------------------------:
-![](images/car_top.png)  |  ![](images/car_bottom.png)
+Car top view                   |  Car bottom view
+:-----------------------------:|:----------------------------------:
+![](images/car_top_small.png)  |  ![](images/car_bottom_small.png)
 
 ## Schematic breadboard construction
 ![](images/sketch.png)
