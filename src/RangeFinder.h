@@ -1,3 +1,21 @@
+/* This file is part of VK RcCat.
+ *
+ * Copyright 2019 Viktor Krueckl (viktor@krueckl.de). All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ==============================================================================
+ */
+
 #ifndef RCAT_RANGEFINDER_H
 #define RCAT_RANGEFINDER_H
 
@@ -11,7 +29,7 @@ namespace RcCat
   public:
     RangeFinder();
     //setup the rangefinde with a i2c address
-    void setup(int i2caddress);
+    void setup(int in_address);
 
     //call periodically to update the distance
     void loop();
@@ -25,7 +43,7 @@ namespace RcCat
     uint8_t internalSetup();
 
     //address used for the i2c communicating
-    int _i2caddress;
+    int address;
 
     //time to schedule range sensing interval
     unsigned long last_timer;
