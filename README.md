@@ -1,4 +1,4 @@
-<div style="float: right;"><img src="images/logo.png" width="128" height="135"/></div> 
+<a href="#"><img src="images/logo.png" width="128" height="135" align="right"/></a>
 
 # VK RcCat
 
