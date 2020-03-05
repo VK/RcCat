@@ -1,0 +1,62 @@
+html {
+    font-size: 120%;
+}
+h1 {
+    color: #e93017;
+}
+
+h2, h3, h4, h5, h6 {
+    color: #59bbe9;
+}
+p, div {
+    color: #555;
+}
+body {
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+      
+}
+
+pre {
+    font-size: 12px;
+    -webkit-touch-callout: text; /* iOS Safari */
+    -webkit-user-select: text; /* Safari */
+    -khtml-user-select: text; /* Konqueror HTML */
+    -moz-user-select: text; /* Old versions of Firefox */
+    -ms-user-select: text; /* Internet Explorer/Edge */
+    user-select: text; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+
+    background-color: #e5ecf6;
+    border-radius: 5px 5px 5px 5px;
+    padding: 2px;
+}
+
+[type="checkbox"]::before {
+    top: 0.05em;
+}
+
+[type="checkbox"]::after {
+    left: -0.45em !important;
+    top: -0.1em !important;
+    font-size: 3rem !important;
+    color: #ff000096 !important;
+}
+
+
+
+._dash-loading
+{
+    position: relative;
+    top: 40vh;
+    left: 40vw;
+    font-size: 50px;
+    color: #888;
+    overflow: hidden;
+    width: 20%;
+    text-align: center;
+}
