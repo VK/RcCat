@@ -78,9 +78,11 @@ private:
   volatile unsigned long speed_pulseCounts;
   volatile unsigned long speed_pd;
 
+public:
   volatile boolean speed_pin_state_new;
   volatile boolean speed_pin_state_old;
 
+private:
   volatile unsigned long speed_t_start;     // units of 0.5us
   volatile unsigned long speed_t_start_old; // units of 0.5us
   volatile float speed;

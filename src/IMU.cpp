@@ -297,7 +297,7 @@ void IMU::runCalibration(float *dest1, float *dest2)
   uint16_t gyrosensitivity = 131;    // = 131 LSB/degrees/sec
   uint16_t accelsensitivity = 16384; // = 16384 LSB/g
 
-  // Configure FIFO to capture accelerometer and gyro data for bias calculation
+  // Configure FIFO to capture accelerometer and gyro data i2cfor bias calculation
   i2c.writeByte(MPU9250_ADDRESS, USER_CTRL, 0x40); // Enable FIFO
   i2c.writeByte(MPU9250_ADDRESS, FIFO_EN, 0x78);   // Enable gyro and accelerometer sensors for FIFO  (max size 512 bytes in MPU-9150)
   delay(40);                                       // accumulate 40 samples in 40 milliseconds = 480 bytes
