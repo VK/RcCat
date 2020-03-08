@@ -368,7 +368,7 @@ void Controller::readData() {
 
   if (value != -1) {
 
-    if (value == 27) {
+    if (value == 120) {
       driveState = normal;
     } else {
 

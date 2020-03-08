@@ -106,4 +106,5 @@ void Controller::updateExternal() {
 
 // esc => 27
 // enter => 10
+// x => 120
 } // namespace RcCat

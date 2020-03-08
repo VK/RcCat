@@ -1,6 +1,7 @@
 #ifndef RCAT_IMU_H
 #define RCAT_IMU_H
 
+#include "complementary_filter.h"
 #include <Arduino.h>
 
 
@@ -30,10 +31,12 @@ class IMU
     void setKp(float newKp, float scaler = 100.0);
     bool loop();
 
+    ComplementaryFilter filter;
+
 
   private:
-    uint8_t Gscale = GFS_250DPS;
-    uint8_t Ascale = AFS_2G;
+    uint8_t Gscale = GFS_2000DPS;
+    uint8_t Ascale = AFS_8G;
 
     float kp = 1.0;
     float tot_a_scaler = 100.0;
@@ -48,6 +51,8 @@ class IMU
     float deltat = 0.0f;          // integration interval for both filter schemes
     uint32_t lastUpdate = 0; // used to calculate integration interval
     uint32_t Now = 0;                         // used to calculate integration interval
+
+
 
   private:
     void calcAres();

@@ -6,80 +6,12 @@ import plotly.graph_objs as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
-
-
-# handle data inport
-import serial
-import io
-import threading
-import time
 import pandas as pd
 
-
-class RcCatSerialIO:
-
-    def __init__(self):
-        self.ser = None
-        self.readData = pd.DataFrame(columns=['time',
-                                              'steer_rec', 'acc_rec',
-                                              'ax', 'ay', 'az', 'a_tot',
-                                              'pitch', 'roll',
-                                              'dist',
-                                              'speed',
-                                              'steer_out',
-                                              'acc_out',
-                                              'state'
-                                              ])
-        self.thread = None
-        self.active = False
-        self.lastcall = pd.Timestamp.now()
-
-    def connect(self, deviceName="/dev/ttyUSB0"):
-        try:
-            self.ser = serial.Serial(deviceName, 115200, timeout=0.0001)
-            self.thread = threading.Thread(target=self.readSerial)
-            self.thread.daemon = True
-            self.active = True
-            self.thread.start()
-
-            return ""
-        except:
-            self.active = False
-            return "No connection"
-
-    def disconnect(self):
-        self.active = False
-
-        try:
-            if self.ser:
-                self.ser.close()
-        except:
-            print("Serial close problem")
-
-    def readSerial(self):
-
-        while self.active:
-            try:
-                l = self.ser.readline().decode("utf-8")
-
-                if len(l) > 30:
-                    strings = l.replace("\r\n", "").split("\t")
-                    vals = [int(s) for s in strings]
-                    if len(vals)+1 == len(self.readData.columns):
-                        self.readData.loc[len(self.readData)] = [
-                            pd.Timestamp.now(), *vals]
-                else:
-                    time.sleep(0.1)
-
-            except:
-                time.sleep(0.1)
-                pass
-
-    def status(self):
-        return self.active
+import rccat
 
 
-rcCatSerialIO = RcCatSerialIO()
+rcCatSerialIO = rccat.SerialIO()
 
 
 # end handle data import
@@ -149,6 +81,9 @@ app.layout = html.Div([
     ),
 
 
+    html.Button('q', id='q-button', className="btn"),
+    html.Label('', id='dummy-label'),
+
     dcc.Graph(id='main-graph')
 ], className="container")
 
@@ -202,6 +137,26 @@ PLOT_LAYOUT = dict(
         color='#555'
     ),
 )
+
+
+index = 0
+
+@app.callback(Output('dummy-label', 'children'),
+              [Input('q-button', 'n_clicks')
+               ])
+def press_q(clicks):
+    global index
+    char = rcCatSerialIO.commands[index]
+
+    rcCatSerialIO.write(char)
+
+    string = char.decode("utf-8")  + "-button"
+
+    index += 1
+    index = index % len(rcCatSerialIO.commands)
+    return  string
+
+
 
 
 @app.callback(Output('interval-component', 'disabled'),
@@ -264,6 +219,7 @@ def update_graph(n, c, limit):
     else:
 
         return px.scatter(x=[0], y=[0])
+
 
         # end dash app
 if __name__ == '__main__':
