@@ -17,94 +17,31 @@
  */
 
 #include "../Controller.h"
+#include <math.h>
 
 namespace RcCat {
 
-int last_external_steer = 1400;
-int target_external_acc = 1500;
-int target_external_cruise = 1500;
-bool handle_task = false;
+unsigned long last_receiver_input = 0;
 
-unsigned long start_external_drive = 0;
-unsigned long stop_external_drive = 0;
-unsigned long stop_external_task = 0;
+void Controller::commandExternal(int steer, int accel) {
 
-void Controller::commandExternal(int value) {
+  if (timer_mem[MEMORY_LENGTH - 1] > last_receiver_input + 10000000) {
+    driveState = external;
+    int next_steer = 1400-min(max(-500, (steer - 128) * 4), 500); //server problem => 1400
+    int next_accel = min(max(-500, (accel - 128) * 4), 500)+1500;
 
-  if (handle_task) {
-    return;
+    controller.steering.writeMicroseconds(next_steer);
+    controller.acceleration.writeMicroseconds(next_accel);
   }
-  handle_task = true;
-
-  // find the next steering value
-  int next_steer = 1400;
-  if (value == 113 || value == 97) {
-    next_steer = 1800;
-  }
-  if (value == 101 || value == 100) {
-    next_steer = 1000;
-  }
-
-  // set the next steering value to the servo
-  controller.steering.writeMicroseconds(next_steer);
-
-  // w => 119
-  // q => 113
-  // e => 101
-  if (value == 119 || value == 113 || value == 101) {
-    target_external_acc = 1620;
-    target_external_cruise = 1550;
-  }
-
-  // a => 97
-  // s => 115
-  // d => 100
-  if (value == 97 || value == 115 || value == 100) {
-    target_external_acc = 1340;
-    target_external_cruise = 1390;
-  }
-
-  // decide if the next steering needs an extra wait time for the acceleration
-  if (next_steer == last_external_steer) {
-    start_external_drive = timer_mem[MEMORY_LENGTH - 1];
-    stop_external_drive = timer_mem[MEMORY_LENGTH - 1] + 500000;
-    stop_external_task = timer_mem[MEMORY_LENGTH - 1] + 1500000;
-  } else {
-    start_external_drive = timer_mem[MEMORY_LENGTH - 1] + 300000;
-    stop_external_drive = timer_mem[MEMORY_LENGTH - 1] + 800000;
-    stop_external_task = timer_mem[MEMORY_LENGTH - 1] + 1800000;
-  }
-  last_external_steer = next_steer;
 }
 
 void Controller::updateExternal() {
 
-  // check if an  acceleratio is allowed
-  if (start_external_drive < timer_mem[MEMORY_LENGTH - 1] &&
-      timer_mem[MEMORY_LENGTH - 1] < stop_external_drive) {
-
-    if (speed < 0.1) {
-      controller.acceleration.writeMicroseconds(target_external_acc);
-    } else {
-      controller.acceleration.writeMicroseconds(target_external_cruise);
+  if (abs(steering_receiver) > 100 || abs(acceleration_receiver) > 100) {
+    last_receiver_input = timer_mem[MEMORY_LENGTH - 1];
+    if (driveState == external) {
+      driveState = normal;
     }
-  } else {
-    controller.acceleration.writeMicroseconds(1500);
-    if (timer_mem[MEMORY_LENGTH - 1] > stop_external_task)
-      handle_task = false;
   }
 }
-
-// w => 119
-// q => 113
-// e => 101
-// a => 97
-// s => 115
-// d => 100
-
-// groß => -32
-
-// esc => 27
-// enter => 10
-// x => 120
 } // namespace RcCat

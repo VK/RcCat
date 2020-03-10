@@ -46,7 +46,7 @@ namespace RcCat
 
   void Controller::updateNormal()
   {
-    imu.setKp(1.0);
+  
     if(saveMode && blinkCounter > 80 && blinkCounter < 87)  digitalWrite(13, HIGH);
     if(saveMode && blinkCounter > 87)  digitalWrite(13, LOW);
     if(blinkCounter > 100)

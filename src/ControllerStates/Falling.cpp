@@ -17,11 +17,10 @@
  */
 
 #include "../Controller.h"
-#include "../PID.h"
 #include "../IMU.h"
+#include "../PID.h"
 
-namespace RcCat
-{
+namespace RcCat {
 
 double flying_pitch, flying_accel_value, flying_target_pitch;
 
@@ -29,38 +28,30 @@ int startDirection = 0;
 int stop_acceleration = 1500;
 unsigned long max_break_time = 0;
 
-PID falling_PID(&flying_pitch, &flying_accel_value, &flying_target_pitch, 20.0, 200.0, .00, DIRECT);
-void Controller::startFalling()
-{
-  imu.setKp(0.0);
+PID falling_PID(&flying_pitch, &flying_accel_value, &flying_target_pitch, 20.0,
+                200.0, .00, DIRECT);
+void Controller::startFalling() {
+  /*
   Serial.println("startFalling");
   Serial.println(start_fly_pitch);
-  if (start_fly_pitch > 2000.0f)
-  {
+  */
+  if (start_fly_pitch > 2000.0f) {
     Serial.println("back");
     acceleration.writeMicroseconds(900);
     stop_acceleration = 1700;
     flying_accel_value = -500;
     startDirection = -1;
-  }
-  else if (start_fly_pitch < -2000.0f)
-  {
+  } else if (start_fly_pitch < -2000.0f) {
     Serial.println("front");
     acceleration.writeMicroseconds(2100);
     stop_acceleration = 1300;
     flying_accel_value = +500;
     startDirection = +1;
-  }
-  else
-  {
+  } else {
     acceleration.writeMicroseconds(1500);
     stop_acceleration = 1500;
     flying_accel_value = 0;
   }
-
-  Serial.println(flying_accel_value);
-Serial.println(startDirection);
-Serial.println(stop_acceleration);
 
   flying_pitch = pitch_av;
   flying_target_pitch = 0.0;
@@ -68,27 +59,21 @@ Serial.println(stop_acceleration);
   falling_PID.SetMode(AUTOMATIC);
 }
 
-void Controller::updateFalling()
-{
+void Controller::updateFalling() {
 
-  if (blinkCounter > 1)
-  {
+  if (blinkCounter > 1) {
     blinkCounter = 0;
     blinkState = true;
     digitalWrite(13, HIGH);
   }
 
-  if (startDirection != 0 && timer_mem[MEMORY_LENGTH - 1] < max_flip_time)
-  {
+  if (startDirection != 0 && timer_mem[MEMORY_LENGTH - 1] < max_flip_time) {
     flying_pitch = pitch_mem[MEMORY_LENGTH - 1];
     falling_PID.Compute(timer_mem[MEMORY_LENGTH - 1]);
     max_break_time = timer_mem[MEMORY_LENGTH - 1] + speed * 10000;
-    if (startDirection * flying_accel_value > 50)
-    {
+    if (startDirection * flying_accel_value > 50) {
       acceleration.writeMicroseconds(1500 + flying_accel_value);
-    }
-    else
-    {
+    } else {
       acceleration.writeMicroseconds(stop_acceleration);
       startDirection = 0;
     }
@@ -96,23 +81,20 @@ void Controller::updateFalling()
     //  acceleration.writeMicroseconds(1500 - 500 * startDirection);
     //  startDirection = 0;
     //}
-  }
-  else
-  {
-    if (speed > 0.5 && timer_mem[MEMORY_LENGTH - 1] < max_break_time)
-    {
+  } else {
+    if (speed > 0.5 && timer_mem[MEMORY_LENGTH - 1] < max_break_time) {
       acceleration.writeMicroseconds(stop_acceleration);
-    }
-    else
-    {
+    } else {
       acceleration.writeMicroseconds(1500);
     }
   }
 
-  printf("#F\t%i\t%i\t%i\t%i\n",
-         (int)flying_pitch,
-         (int)flying_accel_value,
-         (int)flying_target_pitch,
-         startDirection);
+  /*
+    printf("#F\t%i\t%i\t%i\t%i\n",
+           (int)flying_pitch,
+           (int)flying_accel_value,
+           (int)flying_target_pitch,
+           startDirection);
+           */
 }
 } // namespace RcCat

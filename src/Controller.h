@@ -104,7 +104,7 @@ namespace RcCat
     void updateElevated();
     void updateJumping();
 
-    void commandExternal(int value);
+    void commandExternal(int steer, int accel);
     void updateExternal();
 
     void startNormal();

@@ -5,8 +5,9 @@ name = "pypi"
 
 [packages]
 pandas = "*"
+setuptools = "*"
 dash = "*"
-pyserial = "*"
+dash_daq = "*"
 platformio = "*"
 
 [dev-packages]

@@ -28,7 +28,6 @@ class IMU
 
   public:
     void setup(uint8_t  gscale = GFS_2000DPS, uint8_t ascale = AFS_8G);
-    void setKp(float newKp, float scaler = 100.0);
     bool loop();
 
     ComplementaryFilter filter;
@@ -37,10 +36,6 @@ class IMU
   private:
     uint8_t Gscale = GFS_2000DPS;
     uint8_t Ascale = AFS_8G;
-
-    float kp = 1.0;
-    float tot_a_scaler = 100.0;
-
 
     float aRes;      // scale resolution for the accelerometer
     float gRes;      // scale resolution per rotation
@@ -51,8 +46,6 @@ class IMU
     float deltat = 0.0f;          // integration interval for both filter schemes
     uint32_t lastUpdate = 0; // used to calculate integration interval
     uint32_t Now = 0;                         // used to calculate integration interval
-
-
 
   private:
     void calcAres();

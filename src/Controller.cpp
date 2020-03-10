@@ -372,8 +372,14 @@ void Controller::readData() {
       driveState = normal;
     } else {
 
-      driveState = external;
-      commandExternal(value);
+      if (value == 115) {
+        int steer = Serial.read();
+        int accel = Serial.read();
+
+        if (steer != -1 && accel != -1) {
+          commandExternal(steer, accel);
+        }
+      }
     }
   }
 }
@@ -401,9 +407,8 @@ void Controller::loop() {
     updateFalling();
   } else if (driveState == elevated) {
     updateElevated();
-  } else if (driveState == external) {
-    updateExternal();
   }
+  updateExternal();
 
   writeData();
   readData();

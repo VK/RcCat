@@ -25,8 +25,7 @@ namespace RcCat
 
   void Controller::updateElevated()
   {
-    imu.setKp(1.0, 1.0);
-
+   
     if(saveMode && blinkCounter > 20 && blinkCounter < 27)  digitalWrite(13, HIGH);
     if(saveMode && blinkCounter > 27)  digitalWrite(13, LOW);
     if(blinkCounter > 30)

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "43cbd41d554445c73b1cbe6dc3b35ecf4384e2d6935c6d28dc71bd92e0ba8bbe"
+            "sha256": "e7c1af6c260e99830dd6ed6bdc1e935eeee80b477bb0a102c2d97e15ae67ade3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -63,6 +63,13 @@
                 "sha256:9a8901b67d3a1038fb79153c17234d5713c2d7cca0382718c6376c786b280e63"
             ],
             "version": "==1.8.1"
+        },
+        "dash-daq": {
+            "hashes": [
+                "sha256:051adb0ffc03e25f24bc031d40b858aa85bd3bae61450b150a24a5d13847d332"
+            ],
+            "index": "pypi",
+            "version": "==0.4.0"
         },
         "dash-html-components": {
             "hashes": [
@@ -222,10 +229,10 @@
         },
         "plotly": {
             "hashes": [
-                "sha256:742e2de326199dd704f8bb0c1cae96a5f75ff8f383c035bfb461f347612354a5",
-                "sha256:9132cf7c0b0840653317b33f73cdb7d7f07e75cdf7456b5fceb5e4188f5805ad"
+                "sha256:51d65748bb3ccd09d7b5cb1d15996edd126df695cb236f92cc1aded06e7c1611",
+                "sha256:622acbdfbde222ad798eeaa91bf72584fe10833dfbea1afcc18e866b98000ae1"
             ],
-            "version": "==4.5.2"
+            "version": "==4.5.3"
         },
         "pyelftools": {
             "hashes": [
@@ -239,7 +246,6 @@
                 "sha256:6e2d401fdee0eab996cf734e67773a0143b932772ca8b42451440cfed942c627",
                 "sha256:e0770fadba80c31013896c7e6ef703f72e7834965954a78e71a3049488d4d7d8"
             ],
-            "index": "pypi",
             "version": "==3.4"
         },
         "python-dateutil": {

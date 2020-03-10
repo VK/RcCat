@@ -607,27 +607,13 @@ bool IMU::loop() {
                                            // elapsed since last filter update
     lastUpdate = Now;
 
-    // fuseIMU(gy * PI / 180.0f, gx * PI / 180.0f, gz * PI / 180.0f, ay, ax, az,
-    // deltat, kp * (1.0 - tan((1.0 - a_tot) * (1.0 - a_tot) * tot_a_scaler)));
-
     filter.update(ax, ay, az, gx * PI / 180.0f, gy * PI / 180.0f,
                   gz * PI / 180.0f, deltat);
 
-    // roll = -asin(2.0f * (filter.q1_ * filter.q3_ - filter.q0_ * filter.q2_));
-
-    /*
-    pitch = atan2(2.0f * (filter.q0_ * filter.q1_ + filter.q2_ * filter.q3_),
-                  filter.q0_ * filter.q0_ - filter.q1_ * filter.q1_ -
-                      filter.q2_ * filter.q2_ + filter.q3_ * filter.q3_);
-
-    pitch = atan2(2.0f * (filter.q0_ * filter.q1_ + filter.q2_ * filter.q3_),
-                  1.0 - filter.q2_ * filter.q2_ + filter.q3_ * filter.q3_);
-    */
-
     float sinr_cosp = 2.0 * (filter.q0_ * filter.q2_ + filter.q1_ * filter.q3_);
-    float cosr_cosp = 1.0 - 2.0 * (filter.q1_ * filter.q1_ + filter.q2_ * filter.q2_);
+    float cosr_cosp =
+        1.0 - 2.0 * (filter.q1_ * filter.q1_ + filter.q2_ * filter.q2_);
     pitch = atan2(sinr_cosp, cosr_cosp);
-
 
     float sinr = 2.0 * (filter.q0_ * filter.q1_ - filter.q3_ * filter.q2_);
     roll = asin(sinr);
@@ -638,11 +624,6 @@ bool IMU::loop() {
   }
 
   return true;
-}
-
-void IMU::setKp(float newKp, float scaler) {
-  // kp = newKp;
-  // tot_a_scaler = scaler;
 }
 
 float IMU::getPitch() { return pitch; }

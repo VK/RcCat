@@ -2,11 +2,16 @@ from dash.dependencies import Input, Output, State
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_daq as daq
+import math
+
 import plotly.graph_objs as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import pandas as pd
+import base64
+import urllib
 
 import rccat
 
@@ -32,59 +37,129 @@ app = dash.Dash("RcCat Monitor", external_stylesheets=external_stylesheets)
 
 
 app.layout = html.Div([
-    html.H1('RcCat Monitor'),
+    html.H1('RcCat Control'),
 
-    html.P('Connect to your RcCat via a serial connection.'),
-    html.Div([
-        dcc.Input(
-            placeholder='USB tty',
-            type='text',
-            value='/dev/ttyUSB0',
-            id='connect-path'
-        ),
-        html.Button('Connect', id='connect-button',
-                    className="btn btn-success ml-1", disabled=False),
-        html.Button('Disconnect', id='disconnect-button',
-                    className="btn btn-danger ml-1", disabled=True),
-        html.Label('', id='connect-status', className="ml-3")
-    ], className="input-group, p-1"),
+    html.Div(className="card", children=[
+        dcc.Tabs(id="main-tabs", children=[
+            dcc.Tab(label='Connect', className="card-header", children=[
+                html.Div(className="card-body", children=[
+                    html.P('Connect to your RcCat via a serial connection.'),
+                    html.Div([
+                        dcc.Input(
+                            placeholder='USB tty',
+                            type='text',
+                            value='/dev/ttyUSB0',
+                            id='connect-path'
+                        ),
+                        html.Button('Connect', id='connect-button',
+                                    className="btn btn-success ml-1", disabled=False),
+                        html.Button('Disconnect', id='disconnect-button',
+                                    className="btn btn-danger ml-1", disabled=True),
+                        html.Label('', id='connect-status', className="ml-3")
+                    ], className="input-group, p-1"),
+                ])
+            ]),
+            dcc.Tab(label='Control', className="card-header",
+                    children=[html.Div(className="card-body", children=[
+                        html.P('Use the joystick to remote control your RcCat.'),
+                        daq.Joystick(
+                            id='joystick',
+                            size=250,
+                            className="d-flex justify-content-center"
+                        ),
+                        html.Label('', id="joystick-label",
+                                   style="visible:hidden"),
 
-    html.Div([
+                    ])]),
+            dcc.Tab(label='Save/Load', className="card-header",
+                    children=[html.Div(className="card-body", children=[
 
-        html.Button('Refresh', id='refresh-button',
-                    className="btn btn-primary ml-1"),
+                        html.P("Upload old RcCat log files for data analysis, or download current data."),
 
-        dcc.Checklist(
-            options=[
-                {'label': 'Auto Refresh', 'value': 'ON'},
-            ],
-            value=[],
-            labelStyle={'display': 'inline-block'},
-            id='auto-refresh',
-            className="pl-5 mr-5 mt-1"
-        ),
+                        dcc.Upload(
+                            id='upload-file',
+                            children=html.Div([
+                                'Drag and Drop or ',
+                                html.A('Select a RcCat log file for upload.')
+                            ]),
+                            style={
+                                'vw': '100%',
+                                'height': '60px',
+                                'lineHeight': '60px',
+                                'borderWidth': '1px',
+                                'borderStyle': 'dashed',
+                                'borderRadius': '5px',
+                                'textAlign': 'center',
+                                'margin': '10px'
+                            },
+                        ),
+                        html.Label('', id="file-label",
+                                   style="visible:hidden"),
+                        html.Button('Create Download', id='download-button',
+                                        className="btn btn-primary ml-1"),
+                        html.A(
+                            'Download Data',
+                            id='download-link',
+                            download="rawdata.txt",
+                            href="",
+                            target="_blank",
+                            hidden=True,
+                            className="ml-3"
+                        )
+                        
 
-        html.Label("Limit:", className="mt-1"),
-        dcc.Input(
-            id="time-limit",
-            type="number",
-            value=10000
-        )
 
-    ], className="input-group p-1"),
+                    ])]),
+            dcc.Tab(label='Telemetry', className="card-header",
+                    children=[html.Div(className="card-body", children=[
+                        html.P('Check the internal telemetry data of the RcCat.'),
+
+                        html.Div([
+
+                            html.Button('Refresh', id='refresh-button',
+                                        className="btn btn-primary ml-1"),
+
+                            dcc.Checklist(
+                                options=[
+                                    {'label': 'Auto Refresh', 'value': 'ON'},
+                                ],
+                                value=[],
+                                labelStyle={'display': 'inline-block'},
+                                id='auto-refresh',
+                                className="pl-5 mr-5 mt-1"
+                            ),
+
+                            html.Label("Frames: ", className="mt-1"),
+                            dcc.Input(
+                                id="time-limit",
+                                type="number",
+                                value=10000
+                            ),
+                            html.Button('Clear', id='clear-button',
+                                        className="btn btn-primary ml-1"),
+
+                        ], className="input-group p-1"),
+
+                        dcc.Graph(id='main-graph'),
+
+                        dcc.Interval(
+                            id='interval-component',
+                            interval=1000,  # in milliseconds
+                            n_intervals=0
+                        ),
 
 
-    dcc.Interval(
-        id='interval-component',
-        interval=1000,  # in milliseconds
-        n_intervals=0
-    ),
+                    ])]),
+
+        ]),
+    ]),
 
 
-    html.Button('q', id='q-button', className="btn"),
-    html.Label('', id='dummy-label'),
 
-    dcc.Graph(id='main-graph')
+
+
+
+
 ], className="container")
 
 
@@ -123,7 +198,7 @@ def connect_and_disconnect(connect_clicks, disconnect_clicks, connect_path_value
             rcCatSerialIO.disconnect()
             return False, True, "disconnected"
 
-    if rcCatSerialIO.status:
+    if rcCatSerialIO.status():
         return True, False, "connected"
     else:
         return False, True, "disconnected"
@@ -141,23 +216,6 @@ PLOT_LAYOUT = dict(
 
 index = 0
 
-@app.callback(Output('dummy-label', 'children'),
-              [Input('q-button', 'n_clicks')
-               ])
-def press_q(clicks):
-    global index
-    char = rcCatSerialIO.commands[index]
-
-    rcCatSerialIO.write(char)
-
-    string = char.decode("utf-8")  + "-button"
-
-    index += 1
-    index = index % len(rcCatSerialIO.commands)
-    return  string
-
-
-
 
 @app.callback(Output('interval-component', 'disabled'),
               [Input('auto-refresh', 'value')
@@ -169,12 +227,41 @@ def toggle_auto_refresh(values):
         return True
 
 
+@app.callback(Output('joystick-label', 'children'),
+              [Input('joystick', 'angle'),
+               Input('joystick', 'force')
+               ])
+def update_joystick(angle, force):
+
+    if(isinstance(angle, (int, float)) and isinstance(force, (int, float))):
+        throttle = math.sin(angle/180.0*math.pi)*force*100.0
+        steer = math.cos(angle/180.0*math.pi)*force*100.0
+
+        rcCatSerialIO.driveCommand(steer, throttle)
+
+        return "{} {}".format(throttle, steer)
+    else:
+        return ""
+
+
 @app.callback(Output('main-graph', 'figure'),
               [Input('interval-component', 'n_intervals'),
                Input('refresh-button', 'n_clicks'),
                Input('time-limit', 'value'),
+               Input('clear-button', 'n_clicks'),
                ])
-def update_graph(n, c, limit):
+def update_graph(n, c, limit, clear_clicks):
+
+    ctx = dash.callback_context
+
+    if ctx.triggered and ctx.triggered[0]['value'] is not None:
+        triggerID = ctx.triggered[0]['prop_id'].split('.')[0]
+        print(triggerID)
+        if triggerID == "clear-button":
+            rcCatSerialIO.clearBuffer()
+
+
+    
 
     if rcCatSerialIO.status():
 
@@ -221,6 +308,35 @@ def update_graph(n, c, limit):
         return px.scatter(x=[0], y=[0])
 
 
-        # end dash app
+@app.callback(
+    [
+        Output('file-label', 'children')
+    ],
+    [
+        Input('upload-file', 'contents')
+    ],
+)
+def upload_file(file_data):
+
+    _, content_string = file_data.split(',')
+    decoded = base64.b64decode(content_string)
+
+    rcCatSerialIO.importData(decoded)
+
+    return ["test"]
+
+
+@app.callback([Output('download-link', 'hidden'),
+Output('download-link', 'href')
+],
+              [Input('download-button', 'n_clicks')
+               ])
+def download_file(download_clicks):
+
+    res = rcCatSerialIO.getDataString()
+    data_string = "data:text/tsv;charset=utf-8," + urllib.parse.quote(res)
+    return len(res)==0, data_string
+
+    # end dash app
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(host="0.0.0.0")
