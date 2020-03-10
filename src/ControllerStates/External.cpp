@@ -27,8 +27,9 @@ void Controller::commandExternal(int steer, int accel) {
 
   if (timer_mem[MEMORY_LENGTH - 1] > last_receiver_input + 10000000) {
     driveState = external;
-    int next_steer = 1400-min(max(-500, (steer - 128) * 4), 500); //server problem => 1400
-    int next_accel = min(max(-500, (accel - 128) * 4), 500)+1500;
+    int next_steer =
+        1400 - min(max(-500, (steer - 128) * 4), 500); // server problem => 1400
+    int next_accel = min(max(-500, (accel - 128) * 4), 500) + 1500;
 
     controller.steering.writeMicroseconds(next_steer);
     controller.acceleration.writeMicroseconds(next_accel);
