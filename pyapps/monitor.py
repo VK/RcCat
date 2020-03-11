@@ -43,7 +43,7 @@ app.layout = html.Div([
         dcc.Tabs(id="main-tabs", children=[
             dcc.Tab(label='Connect', className="card-header", children=[
                 html.Div(className="card-body", children=[
-                    html.P('Connect to your RcCat via a serial connection.'),
+                    html.P('Connect to your RcCat via a serial connection (e.g. /dev/ttyUSB0) or via WiFi relais (e.g. http://rccat.local).'),
                     html.Div([
                         dcc.Input(
                             placeholder='USB tty',

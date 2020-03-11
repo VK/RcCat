@@ -1,10 +1,12 @@
 # Handle Rcat serial io
 import serial
+import requests
 import io
 import threading
 import time
 import pandas as pd 
 import math
+import urllib.parse
 
 
 class SerialIO:
@@ -32,18 +34,34 @@ class SerialIO:
                                                         ])
 
     def connect(self, deviceName="/dev/ttyUSB0"):
-        try:
-            self.ser = serial.Serial(
-                deviceName, 115200, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
-            self.thread = threading.Thread(target=self.readSerial)
-            self.thread.daemon = True
-            self.active = True
-            self.thread.start()
 
-            return ""
-        except:
-            self.active = False
-            return "No connection"
+        if deviceName.startswith("/dev"):
+            try:
+                self.ser = serial.Serial(
+                    deviceName, 115200, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+                self.thread = threading.Thread(target=self.readSerial)
+                self.thread.daemon = True
+                self.active = True
+                self.thread.start()
+
+                return ""
+            except:
+                self.active = False
+                return "No connection"
+        if deviceName.startswith("http://"):
+            try:
+                self.getUrl = urllib.parse.urljoin(deviceName, "/get")
+                self.writeUrl = urllib.parse.urljoin(deviceName, "/write")
+                self.thread = threading.Thread(target=self.readHTTP)
+                self.thread.daemon = True
+                self.active = True
+                self.thread.start()
+
+                return ""
+            except:
+                self.active = False
+                return "No connection"
+
 
     def disconnect(self):
         self.active = False
@@ -57,7 +75,6 @@ class SerialIO:
     def importData(self, binaryData):
         self.active  = True
 
-        print(len(self.dataBuffer))
         for l in  binaryData.split(b"\r\n"):
             el = l.split(b"\t")
             try:
@@ -89,13 +106,27 @@ class SerialIO:
             except:
                 pass
 
+
+    def readHTTP(self):
+        while self.active:
+            try:
+                #collect data from url and parse it
+                r = requests.get(self.getUrl)
+                self.importData(r.content)
+                #the buffer is (32kB) is sufficient for a few seconds
+                time.sleep(1.0)
+            except:
+                pass
+
+
     def status(self):
         return self.active
 
     def write(self, char):
-        #if self.active:
-        print(char)
-        self.ser.write(char)
+        if 'writeUrl' in self.__dict__:
+            requests.post(self.writeUrl, char)
+        if 'ser' in self.__dict__ and self.ser is not None:
+            self.ser.write(char)
 
 
     def driveCommand(self, steer, accel):
@@ -104,7 +135,7 @@ class SerialIO:
         accel_byte = int(max(-125, min(accel, 125)) + 128)
         
         commands = b's' + bytes([steer_byte, accel_byte])
-        self.ser.write(commands)
+        self.write(commands)
 
 
     def stopDrive(self):
