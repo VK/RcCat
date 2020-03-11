@@ -1,6 +1,6 @@
 # RcCat WLAN relais
 
-In order to have the car telemetry data during test drives, I use a WLAN relay connected to the serial interface of the Arduino Mini Pro. The relais buffers up to 32Kb of the sensor output (a few seconds), which can be collected via WiFi.
+In order to have the car telemetry data during test drives, I use a WLAN relay connected to the serial interface of the Arduino Mini Pro. The relais buffers up to 32kB of the sensor output in a circular buffer (a few seconds), which can be collected via WiFi.
 
 Several WiFi enabled microcontrollers are possible, but I use a spare ESP8266 development board and directly wire it like:
 ![](../images/wlan_repeater_sketch.png) 
