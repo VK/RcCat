@@ -23,8 +23,7 @@ jobs:
 
     - name: Run PlatformIO
       run: platformio run
-      with:
-        build-directory: "car_firmware"
+      working-directory: "car_firmware"
 
     - name: Publish firmware Latest
       uses: svenstaro/upload-release-action@v1-release
