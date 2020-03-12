@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "car_firmware",
+			"path": "car_firmware"
+		},
+		{
+			"name": "wlan_repeater",
+			"path": "wlan_repeater"
+		},
+		{
+			"name": "pyapps",
+			"path": "pyapps"
+		}
+	],
+	"settings": {}
+}
