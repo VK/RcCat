@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+      with:
+        path: PrivateCat/car_firmware
 
     - name: Set up Python
       uses: actions/setup-python@v1
