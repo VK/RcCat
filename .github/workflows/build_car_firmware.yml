@@ -1,4 +1,4 @@
-name: PlatformIO Build
+name: Build Car Firmware
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: car_firmware/.pio/build/pro16MHzatmega328/firmware.hex
-        asset_name: firmware.hex
+        asset_name: car_firmware.hex
         tag: dev
         overwrite: true
-        allowUpdates: true
+        allowUpdates: false

@@ -1,0 +1,36 @@
+name: Build Wlan Repeater Firmware
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Python
+      uses: actions/setup-python@v1
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install platformio
+
+    - name: Run PlatformIO
+      run: platformio run
+      working-directory: "wlan_repeater"
+
+    - name: Publish firmware Latest
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: wlan_repeater/.pio/build/esp07/firmware.elf
+        asset_name: wlan_repeater_firmware.elf
+        tag: dev
+        overwrite: true
+        allowUpdates: false
