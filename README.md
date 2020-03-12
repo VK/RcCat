@@ -2,7 +2,9 @@
 
 # VK RcCat
 
-![PlatformIO Build](https://github.com/VK/PrivateCat/workflows/PlatformIO%20Build/badge.svg)
+![Build Car Firmware](https://github.com/VK/PrivateCat/workflows/Build%20Car%20Firmware/badge.svg)
+![Build Wlan Repeater Firmware](https://github.com/VK/PrivateCat/workflows/Build%20Wlan%20Repeater%20Firmware/badge.svg)
+
 
 An automatic driving aid that takes over to land the RC car on all fours.
 
