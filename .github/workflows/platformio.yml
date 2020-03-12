@@ -12,8 +12,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-      with:
-        path: PrivateCat/car_firmware
 
     - name: Set up Python
       uses: actions/setup-python@v1
@@ -22,14 +20,17 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install platformio
+
     - name: Run PlatformIO
       run: platformio run
+      with:
+        build-directory: "car_firmware"
 
     - name: Publish firmware Latest
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: .pio/build/pro16MHzatmega328/firmware.hex
+        file: car_firmware/.pio/build/pro16MHzatmega328/firmware.hex
         asset_name: firmware.hex
         tag: dev
         overwrite: true
