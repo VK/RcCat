@@ -68,10 +68,15 @@ void Controller::updateNormal() {
     steering_ratio = 1.0;
 
     // optimize acceleration
-    if (acceleration_receiver > 50 && pitch_av < -1000.0f) {
-      acceleration_ratio = max(min(1, 1.2 + pitch_ch / 30.0f), 0.2);
-    } else if (acceleration_receiver < -50 && pitch_av > 1000.0f) {
-      acceleration_ratio = max(min(1, 1.2 - pitch_ch / 30.0f), 0.2);
+    if (acceleration_receiver > 50 && pitch_av < -p_001_normal_pitch_min) {
+      acceleration_ratio = max(
+          min(1, p_003_pormal_acc_offset + pitch_ch / p_002_pormal_pitch_ratio),
+          p_004_pormal_acc_min);
+    } else if (acceleration_receiver < -50 &&
+               pitch_av > p_001_normal_pitch_min) {
+      acceleration_ratio = max(
+          min(1, p_003_pormal_acc_offset - pitch_ch / p_002_pormal_pitch_ratio),
+          p_004_pormal_acc_min);
     } else {
       acceleration_ratio = 1.0;
     }

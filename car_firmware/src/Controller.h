@@ -92,6 +92,14 @@ namespace RcCat
     int steering_receiver;
     int acceleration_receiver;
 
+
+  private:
+    float p_001_normal_pitch_min = 1000.0f;
+    float p_002_pormal_pitch_ratio = 30.0f;
+    float p_003_pormal_acc_offset = 1.2f;
+    float p_004_pormal_acc_min = 0.2f;
+    
+
   private:
 
     void collectData();
@@ -104,6 +112,7 @@ namespace RcCat
     void updateElevated();
     void updateJumping();
 
+    void setParameter(int id, int value);
     void commandExternal(int steer, int accel);
     void updateExternal();
 

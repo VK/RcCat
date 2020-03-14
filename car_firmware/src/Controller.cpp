@@ -49,6 +49,7 @@ Controller::Controller() {
   // Set up stdout
   fdev_setup_stream(&serial_stdout, serial_putchar, NULL, _FDEV_SETUP_WRITE);
   stdout = &serial_stdout;
+
 }
 
 void Controller::setup(int steering_pin, int acceleration_pin) {
@@ -380,9 +381,20 @@ void Controller::readData() {
           commandExternal(steer, accel);
         }
       }
+
+      if (value == 112) {
+        int id = Serial.read();
+        int value = Serial.read();
+
+        if (id != -1 && value != -1) {
+          setParameter(id, value);
+        }
+      }
     }
   }
 }
+
+void Controller::setParameter(int id, int value) {}
 
 void Controller::loop() {
 
