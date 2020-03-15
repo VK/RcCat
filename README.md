@@ -19,21 +19,9 @@ Car top view                   |  Car bottom view
 
 
 ## Repo parts
-* **car_firmware:** The core firmware of RcCat
+* **[car_firmware](/tree/master/car_firmware):** The core firmware of RcCat
 
-* **wlan_repeater:** Serial to Wlan bridge to send telemetry data via wlan during driving and update drive parameters.
+* **[wlan_repeater](/tree/master/wlan_repeater):** Serial to Wlan bridge to send telemetry data via wlan during driving and update drive parameters.
 
-* **pyapps:** Additional python tools to analyze RcCat telemetry data and adjust drive characteristics
+* **[pyapps](/tree/master/pyapps):** Additional python tools to analyze RcCat telemetry data and adjust drive characteristics
 
-## Schematic breadboard setup
-![](images/sketch.png)
-
-
-## Bill of materials
-* Arduino Pro Mini 5V
-  https://store.arduino.cc/arduino-pro-mini
-* 9 axis IMU MPU9250 @ 5Volt
-  (many different possible)
-* ToF range sensors VL6180
-  https://www.sparkfun.com/products/12785
-* Traxxas 6520 RPM Sensor
