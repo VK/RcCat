@@ -49,7 +49,6 @@ Controller::Controller() {
   // Set up stdout
   fdev_setup_stream(&serial_stdout, serial_putchar, NULL, _FDEV_SETUP_WRITE);
   stdout = &serial_stdout;
-
 }
 
 void Controller::setup(int steering_pin, int acceleration_pin) {
@@ -197,43 +196,6 @@ void Controller::writeHeadData() {
   Serial.print("roll_0");
   Serial.print("\t");
 
-  /*
-        ///oder values A
-        ///=================
-        //acceleration_directed
-        Serial.print("ax_1");
-        Serial.print("\t");
-        Serial.print("ay_1");
-        Serial.print("\t");
-        Serial.print("az_1");
-        Serial.print("\t");
-        //gyro_input
-        Serial.print("a_tot_1");
-        Serial.print("\t");
-        Serial.print("pitch_1");
-        Serial.print("\t");
-        Serial.print("roll_1");
-        Serial.print("\t");
-
-
-        ///oder values B
-        ///=================
-        //acceleration_directed
-        Serial.print("ax_2");
-        Serial.print("\t");
-        Serial.print("ay_2");
-        Serial.print("\t");
-        Serial.print("az_2");
-        Serial.print("\t");
-        //gyro_input
-        Serial.print("a_tot_2");
-        Serial.print("\t");
-        Serial.print("pitch_2");
-        Serial.print("\t");
-        Serial.print("roll_2");
-        Serial.print("\t");
-*/
-
   // ground distance is very slow, so we only use the last value
   Serial.print("groundDist");
   Serial.print("\t");
@@ -253,115 +215,13 @@ void Controller::writeHeadData() {
 }
 
 void Controller::writeData() {
-
-  /*
-    //receiver_input
-    Serial.print(steering_receiver);
-    Serial.print("\t");
-    Serial.print(acceleration_receiver);
-    Serial.print("\t");
-
-
-
-
-    ///last values
-    ///=================
-    //acceleration_directed
-    Serial.print(ax_mem[MEMORY_LENGTH-1]);
-    Serial.print("\t");
-    Serial.print(ay_mem[MEMORY_LENGTH-1]);
-    Serial.print("\t");
-    Serial.print(az_mem[MEMORY_LENGTH-1]);
-    Serial.print("\t");
-    //gyro_input
-    Serial.print(a_tot_mem[MEMORY_LENGTH-1]);
-    Serial.print("\t");
-    Serial.print(pitch_mem[MEMORY_LENGTH-1]);
-    Serial.print("\t");
-    Serial.print(roll_mem[MEMORY_LENGTH-1]);
-    Serial.print("\t");
-*/
-
-  /*
-    ///oder values A
-    ///=================
-    //acceleration_directed
-    Serial.print(ax_mem[MEMORY_LENGTH-2]);
-    Serial.print("\t");
-    Serial.print(ay_mem[MEMORY_LENGTH-2]);
-    Serial.print("\t");
-    Serial.print(az_mem[MEMORY_LENGTH-2]);
-    Serial.print("\t");
-    //gyro_input
-    Serial.print(a_tot_mem[MEMORY_LENGTH-2]);
-    Serial.print("\t");
-    Serial.print(pitch_mem[MEMORY_LENGTH-2]);
-    Serial.print("\t");
-    Serial.print(roll_mem[MEMORY_LENGTH-2]);
-    Serial.print("\t");
-
-
-    ///oder values B
-    ///=================
-    //acceleration_directed
-    Serial.print(ax_mem[MEMORY_LENGTH-3]);
-    Serial.print("\t");
-    Serial.print(ay_mem[MEMORY_LENGTH-3]);
-    Serial.print("\t");
-    Serial.print(az_mem[MEMORY_LENGTH-3]);
-    Serial.print("\t");
-    //gyro_input
-    Serial.print(a_tot_mem[MEMORY_LENGTH-3]);
-    Serial.print("\t");
-    Serial.print(pitch_mem[MEMORY_LENGTH-3]);
-    Serial.print("\t");
-    Serial.print(roll_mem[MEMORY_LENGTH-3]);
-    Serial.print("\t");
-    */
-
-  /*
-    //ground distance is very slow, so we only use the last value
-    Serial.print(groundDist_mem[MEMORY_LENGTH-1]);
-    Serial.print("\t");
-
-    //motor_speed
-    Serial.print(  speed );
-    Serial.print("\t");
-
-
-    //servo_last_values
-    Serial.print(  1400 - steering.readMicroseconds()  );
-    Serial.print("\t");
-    Serial.print(  acceleration.readMicroseconds() - 1500);
-    Serial.print("\t");
-
-
-    //drive_state
-    Serial.println(driveState);
-  Serial.print(driveState);
-  Serial.print("\t");
-  Serial.print(speed);
-  Serial.print("\t");
-  Serial.println(acceleration_ratio);
-  */
-
-  if (true)
-    printf("%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\n",
-           steering_receiver, acceleration_receiver, ax_mem[MEMORY_LENGTH - 1],
-           ay_mem[MEMORY_LENGTH - 1], az_mem[MEMORY_LENGTH - 1],
-           a_tot_mem[MEMORY_LENGTH - 1], pitch_mem[MEMORY_LENGTH - 1],
-           roll_mem[MEMORY_LENGTH - 1], groundDist_mem[MEMORY_LENGTH - 1],
-           int(speed * 10), 1400 - steering.readMicroseconds(),
-           acceleration.readMicroseconds() - 1500, driveState);
-  if (false)
-    printf("%04x\t%04x\t%04x\t%04x\t%04x\t%04x\t%04x\t%04x\t%04x\t%04x\t%04x\t%"
-           "04x\n",
-           steering_receiver, acceleration_receiver, ax_mem[MEMORY_LENGTH - 1],
-           ay_mem[MEMORY_LENGTH - 1], az_mem[MEMORY_LENGTH - 1],
-           a_tot_mem[MEMORY_LENGTH - 1], pitch_mem[MEMORY_LENGTH - 1],
-           roll_mem[MEMORY_LENGTH - 1], groundDist_mem[MEMORY_LENGTH - 1],
-           1400 - steering.readMicroseconds(),
-           acceleration.readMicroseconds() - 1500, driveState);
+  printf("%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\t%i\n",
+         steering_receiver, acceleration_receiver, ax_mem[MEMORY_LENGTH - 1],
+         ay_mem[MEMORY_LENGTH - 1], az_mem[MEMORY_LENGTH - 1],
+         a_tot_mem[MEMORY_LENGTH - 1], pitch_mem[MEMORY_LENGTH - 1],
+         roll_mem[MEMORY_LENGTH - 1], groundDist_mem[MEMORY_LENGTH - 1],
+         int(speed * 10), 1400 - steering.readMicroseconds(),
+         acceleration.readMicroseconds() - 1500, driveState);
 }
 
 void Controller::readData() {
@@ -394,7 +254,22 @@ void Controller::readData() {
   }
 }
 
-void Controller::setParameter(int id, int value) {}
+void Controller::setParameter(int id, int value) {
+  // note value ranges form 0 to 255
+  // value = 100 shoud deliver values close to optimum
+  if (id == 1) {
+    p_001_normal_pitch_min = 10.0f * value;
+  }
+  if (id == 2) {
+    p_002_pormal_pitch_ratio = 0.3f * value;
+  }
+  if (id == 3) {
+    p_003_pormal_acc_offset = 0.012f * value;
+  }
+  if (id == 4) {
+    p_004_pormal_acc_min = 0.002f * value;
+  }
+}
 
 void Controller::loop() {
 

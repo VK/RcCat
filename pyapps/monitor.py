@@ -43,7 +43,8 @@ app.layout = html.Div([
         dcc.Tabs(id="main-tabs", children=[
             dcc.Tab(label='Connect', className="card-header", children=[
                 html.Div(className="card-body", children=[
-                    html.P('Connect to your RcCat via a serial connection (e.g. /dev/ttyUSB0) or via WiFi relais (e.g. http://rccat.local).'),
+                    html.P(
+                        'Connect to your RcCat via a serial connection (e.g. /dev/ttyUSB0) or via WiFi relais (e.g. http://rccat.local).'),
                     html.Div([
                         dcc.Input(
                             placeholder='USB tty',
@@ -70,11 +71,41 @@ app.layout = html.Div([
                         html.Label('', id="joystick-label",
                                    style="visible:hidden"),
 
+                        html.P(
+                            'Change internal parematers to play with driving characteristics:',
+                            className="mt-3"),
+
+
+                        html.Div([
+                                 html.Label("Parameter ID: ",
+                                            className="mr-1 mt-1"),
+                                 dcc.Input(
+                                     id="send-parameter-id",
+                                     type="number",
+                                     value=1
+                                 ),
+                                 html.Label(
+                                     "Value: ", className="mr-1 ml-4 mt-1"),
+                                 dcc.Input(
+                                     id="send-parameter-value",
+                                     type="number",
+                                     value=100
+                                 ),
+                                 html.Button('Send', id='send-parameter-button',
+                                             className="btn btn-primary ml-4"),
+
+                                 ], className="input-group p-1"),
+
+                        html.Label('', id="send-parameter-output",
+                                   style="visible:hidden"),
+
+
                     ])]),
             dcc.Tab(label='Save/Load', className="card-header",
                     children=[html.Div(className="card-body", children=[
 
-                        html.P("Upload old RcCat log files for data analysis, or download current data."),
+                        html.P(
+                            "Upload old RcCat log files for data analysis, or download current data."),
 
                         dcc.Upload(
                             id='upload-file',
@@ -96,7 +127,7 @@ app.layout = html.Div([
                         html.Label('', id="file-label",
                                    style="visible:hidden"),
                         html.Button('Create Download', id='download-button',
-                                        className="btn btn-primary ml-1"),
+                                    className="btn btn-primary ml-1"),
                         html.A(
                             'Download Data',
                             id='download-link',
@@ -106,7 +137,7 @@ app.layout = html.Div([
                             hidden=True,
                             className="ml-3"
                         )
-                        
+
 
 
                     ])]),
@@ -244,6 +275,22 @@ def update_joystick(angle, force):
         return ""
 
 
+@app.callback(Output('send-parameter-output', 'children'),
+              [Input('send-parameter-button', 'n_clicks')],
+              [State('send-parameter-id', 'value'),
+               State('send-parameter-value', 'value')
+               ])
+def send_parameter(clicks, param_id, param_value):
+
+    if clicks > 0 and (isinstance(param_id, int) and isinstance(param_value, int)):
+
+        rcCatSerialIO.setParam(param_id, param_value)
+
+        return "{} {}".format(param_id, param_value)
+    else:
+        return ""
+
+
 @app.callback(Output('main-graph', 'figure'),
               [Input('interval-component', 'n_intervals'),
                Input('refresh-button', 'n_clicks'),
@@ -259,9 +306,6 @@ def update_graph(n, c, limit, clear_clicks):
         print(triggerID)
         if triggerID == "clear-button":
             rcCatSerialIO.clearBuffer()
-
-
-    
 
     if rcCatSerialIO.status():
 
@@ -327,15 +371,15 @@ def upload_file(file_data):
 
 
 @app.callback([Output('download-link', 'hidden'),
-Output('download-link', 'href')
-],
+               Output('download-link', 'href')
+               ],
               [Input('download-button', 'n_clicks')
                ])
 def download_file(download_clicks):
 
     res = rcCatSerialIO.getDataString()
     data_string = "data:text/tsv;charset=utf-8," + urllib.parse.quote(res)
-    return len(res)==0, data_string
+    return len(res) == 0, data_string
 
     # end dash app
 if __name__ == '__main__':

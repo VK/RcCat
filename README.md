@@ -5,15 +5,28 @@
 ![Build Car Firmware](https://github.com/VK/PrivateCat/workflows/Build%20Car%20Firmware/badge.svg)
 ![Build Wlan Repeater Firmware](https://github.com/VK/PrivateCat/workflows/Build%20Wlan%20Repeater%20Firmware/badge.svg)
 
+RcCat provides next generation driving aids for Rc Cars.
 
-An automatic driving aid that takes over to land the RC car on all fours.
+A microcontroller with several sensors intercepts the drive commands from the receiver
+and sending optimized signals to the steering servo and the speed controller.
 
+As a result, an RcCat (with a sufficiently strong drive train) can even land on all fours if it falls to the ground from a distance of about one meter.
+
+My prototype is based on a Traxxas Mini Erevo:
 
 Car top view                   |  Car bottom view
 :-----------------------------:|:----------------------------------:
 ![](images/car_top_small.png)  |  ![](images/car_bottom_small.png)
 
-## Schematic breadboard construction
+
+## Repo parts
+* **car_firmware:** The core firmware of RcCat
+
+* **wlan_repeater:** Serial to Wlan bridge to send telemetry data via wlan during driving and update drive parameters.
+
+* **pyapps:** Additional python tools to analyze RcCat telemetry data and adjust drive characteristics
+
+## Schematic breadboard setup
 ![](images/sketch.png)
 
 
