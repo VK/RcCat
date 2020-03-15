@@ -1,3 +1,5 @@
+<a href="#"><img src="../images/logo_small.png" width="128" height="135" align="right"/></a>
+
 # RcCat Python Apps
 
 
@@ -12,6 +14,3 @@ pipenv shell
 python monitor.py
 ```
 
-
-### Run
-python3 -m venv env
