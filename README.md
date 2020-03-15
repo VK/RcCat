@@ -19,9 +19,9 @@ Car top view                   |  Car bottom view
 
 
 ## Repo parts
-* **[car_firmware](/tree/master/car_firmware):** The core firmware of RcCat
+* **[car_firmware](/car_firmware):** The core firmware of RcCat
 
-* **[wlan_repeater](/tree/master/wlan_repeater):** Serial to Wlan bridge to send telemetry data via wlan during driving and update drive parameters.
+* **[wlan_repeater](/wlan_repeater):** Serial to Wlan bridge to send telemetry data via wlan during driving and update drive parameters.
 
-* **[pyapps](/tree/master/pyapps):** Additional python tools to analyze RcCat telemetry data and adjust drive characteristics
+* **[pyapps](/pyapps):** Additional python tools to analyze RcCat telemetry data and adjust drive characteristics
 
