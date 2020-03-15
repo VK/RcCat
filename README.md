@@ -5,14 +5,13 @@
 ![Build Car Firmware](https://github.com/VK/PrivateCat/workflows/Build%20Car%20Firmware/badge.svg)
 ![Build Wlan Repeater Firmware](https://github.com/VK/PrivateCat/workflows/Build%20Wlan%20Repeater%20Firmware/badge.svg)
 
-RcCat provides next generation driving aids for Rc Cars.
+**RcCat provides next generation driving aids for Rc Cars.**
 
 A microcontroller with several sensors intercepts the drive commands from the receiver
 and sending optimized signals to the steering servo and the speed controller.
-
 As a result, an RcCat (with a sufficiently strong drive train) can even land on all fours if it falls to the ground from a distance of about one meter.
 
-My prototype is based on a Traxxas Mini Erevo:
+My prototype is based on 1:16 **Traxxas Mini E-Revo**:
 
 Car top view                   |  Car bottom view
 :-----------------------------:|:----------------------------------:
