@@ -1,6 +1,6 @@
 <a href="#"><img src="../images/logo_small.png" width="128" height="135" align="right"/></a>
 
-# RcCat WLAN repeater
+# VK RcCat WLAN repeater
 
 ![Build Wlan Repeater Firmware](https://github.com/VK/PrivateCat/workflows/Build%20Wlan%20Repeater%20Firmware/badge.svg)
 
