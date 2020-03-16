@@ -1,0 +1,119 @@
+@startuml
+
+
+/' Classes '/
+
+class ComplementaryFilter {
+	+ComplementaryFilter()
+	+~ComplementaryFilter()
+
+	+q0_ : double
+	+q1_ : double
+	+q2_ : double
+	+q3_ : double
+	+update(double ax, double ay, double az, double wx, double wy, double wz, double dt) : void
+}
+
+
+class Controller {
+	+Controller()
+	+driveState : DriveStateType
+	+serial_stdout : FILE
+	+acceleration : Servo
+	+steering : Servo
+
+	+acceleration_ratio : float
+	+steering_ratio : float
+	+loop() : void
+	+setup(int steering_pin, int acceleration_pin) : void
+	+writeHeadData() : void
+	+{static} updateAcceleration(int microseconds) : volatile void
+	+{static} updateSteering(int microseconds) : volatile void
+}
+
+
+
+class I2C {
+	+I2C()
+	+write(uint8_t data) : size_t
+	+read2Bytes(uint8_t address, uint8_t subAddress) : uint16_t
+	+read2BytesLongAddr(uint8_t address, uint16_t subAddress) : uint16_t
+	+endTransmission(uint8_t sendStop) : uint8_t
+	+read() : uint8_t
+	+readByte(uint8_t address, uint8_t subAddress) : uint8_t
+	+readByteLongAddr(uint8_t address, uint16_t subAddress) : uint8_t
+	+requestFrom(uint8_t address, uint8_t quantity, uint32_t iaddress, uint8_t isize, uint8_t sendStop) : uint8_t
+	+beginTransmission(uint8_t address) : void
+	+readBytes(uint8_t address, uint8_t subAddress, uint8_t count, uint8_t* dest) : void
+	+write2Bytes(uint8_t address, uint8_t subAddress, uint16_t data) : void
+	+write2BytesLongAddr(uint8_t address, uint16_t subAddress, uint16_t data) : void
+	+writeByte(uint8_t address, uint8_t subAddress, uint8_t data) : void
+	+writeByteLongAddr(uint8_t address, uint16_t subAddress, uint8_t data) : void
+}
+
+
+class IMU {
+	+IMU()
+	+filter : ComplementaryFilter
+	+loop() : bool
+	+getAtot() : float
+	+getAx() : float
+	+getAy() : float
+	+getAz() : float
+	+getPitch() : float
+	+getRoll() : float
+	+setup(uint8_t gscale, uint8_t ascale) : void
+}
+
+
+
+
+class RangeFinder {
+	+RangeFinder()
+	+getDistance() : uint8_t
+	+loop() : void
+	+setup(int in_address) : void
+}
+
+
+
+class Receiver {
+	+Receiver()
+	+getDSpeed() : float
+	+getSpeed() : float
+	+getMicroseconds(int pinID) : unsigned long
+	+attach(int pinID, volatile void(*callback)(intmicroseconds)) : void
+	+attachSpeed(int pinID) : void
+	+pinChangeIntISR() : void
+	+speed_pin_state_new : volatile boolean
+	+speed_pin_state_old : volatile boolean
+}
+
+
+class Timer {
+	+Timer()
+	+getCount() : unsigned long
+	+setup() : void
+}
+
+
+
+/' Relationships '/
+
+.Controller *-- .RangeFinder
+.Controller *-- .IMU
+.Controller *-- .Receiver
+
+.IMU *-- .ComplementaryFilter
+
+.Receiver *-- .Timer
+.RangeFinder *-- .Timer
+.Controller *-- .Timer
+
+
+.RangeFinder *-- .I2C
+.IMU *-- .I2C
+
+
+
+@enduml
