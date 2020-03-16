@@ -2,13 +2,11 @@
 
 # VK RcCat Python Apps
 
+This section contains a basic `monitor.py` Python app and an interface library for recording and monitoring telemetry data of RcCat and remote control steering, acceleration and internal parameters.
 
 
-![](../images/monitor.gif) 
-
-
-
-
+### The App in action
+<div style="text-align:center"><img src="../images/monitor.gif" /></div>
 
 ### Setup & Run
 ```shell
