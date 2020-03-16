@@ -4,10 +4,10 @@
 
 
 
+![](../images/monitor.gif) 
 
 
 
-<video src="../images/monitor.mp4" poster="../images/monitor.mp4" width="880" height="912" controls preload><video>
 
 
 ### Setup & Run
