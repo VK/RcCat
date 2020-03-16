@@ -6,9 +6,11 @@
 
 The main control of RcCat runs on a 5V Arduino Mini Pro. Feel free to use this repo and build your own RcCat firmware optimized for your RC model.
 
+The firmware can be built form this PlatformIO project and consists of a few [classes](/car_firmware/src).
 
 
 ## Schematic breadboard setup
+The components are connected as follows and communicate either via **I2C** (IMU and range sensor) bus or **PWM** (receiver, servo, RPM sensor and speed controller)
 ![](../images/sketch.png)
 
 
