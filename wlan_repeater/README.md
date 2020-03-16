@@ -17,3 +17,4 @@ Several WiFi enabled microcontrollers are possible, but I use a spare ESP8266 de
  * http://rccat.local/clear clears the recored telemetry buffer.
 
 ### Example
+<div style="text-align:center"><img src="../images/monitor.gif" /></div>

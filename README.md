@@ -13,9 +13,9 @@ As a result, an RcCat (with a sufficiently strong drive train) can even land on 
 
 My prototype is based on 1:16 **Traxxas Mini E-Revo**:
 
-Car top view                   |  Car bottom view
-:-----------------------------:|:----------------------------------:
-![](images/car_top_small.png)  |  ![](images/car_bottom_small.png)
+Car top view                   |  Car bottom view                   | Monitor App
+:-----------------------------:|:----------------------------------:|:----------------------:
+![](images/car_top_small.png)  |  ![](images/car_bottom_small.png)  | ![](images/monitor.gif)
 
 
 ## Repo parts
