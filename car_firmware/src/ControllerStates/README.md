@@ -1,3 +1,5 @@
+<a href="#"><img src="../../../images/logo_small.png" width="128" height="135" align="right"/></a>
+
 # RcCat Controller States
 
 The `RcCat::Controller` knows 5 different state types, which are automatically chosen depending selected sensor data. 
