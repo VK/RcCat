@@ -4,7 +4,7 @@
 
 The firmware from RcCat consists of a few classes.
 
-The main logic is handeled by the `Controller` class. For more information about the different `DriveStates` see the [ControllerStates subfolder](/ControllerStates).
+The main logic is handeled by the `Controller` class. For more information about the different `DriveStates` see the [ControllerStates subfolder](./ControllerStates).
 
 To do this, the `Controller` collects information from the
 * `IMU` class about rool and pitch 
