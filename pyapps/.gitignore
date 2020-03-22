@@ -41,3 +41,5 @@ pydevd*.log
 nodeLanguageServer/**
 nodeLanguageServer.*/**
 env
+pipfile.lock
+*.jpynb

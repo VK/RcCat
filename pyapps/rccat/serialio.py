@@ -17,19 +17,20 @@ class SerialIO:
         self.thread = None
         self.active = False
         self.lastcall = pd.Timestamp.now()
+        self.columns = ['time',
+                        'steer_rec', 'acc_rec',
+                        'ax', 'ay', 'az', 'a_tot',
+                        'pitch', 'roll',
+                        'dist',
+                        'speed',
+                        'steer_out',
+                        'acc_out',
+                        'state'
+                        ]
 
     @property
     def readData(self):
-        return pd.DataFrame(self.dataBuffer, columns=['time',
-                                                      'steer_rec', 'acc_rec',
-                                                      'ax', 'ay', 'az', 'a_tot',
-                                                      'pitch', 'roll',
-                                                      'dist',
-                                                      'speed',
-                                                      'steer_out',
-                                                      'acc_out',
-                                                      'state'
-                                                      ])
+        return pd.DataFrame(self.dataBuffer, columns=self.columns)
 
     def connect(self, deviceName="/dev/ttyUSB0"):
 
@@ -75,9 +76,9 @@ class SerialIO:
         for l in binaryData.split(b"\r\n"):
             el = l.split(b"\t")
             try:
-                if len(el) == 13:
+                if len(el) == len(self.columns)-1:
                     dataLines = [int(x) for x in el]
-                    self.dataBuffer.append([0, *dataLines])
+                    self.dataBuffer.append([pd.Timestamp.now(), *dataLines])
             except:
                 pass
 
@@ -97,7 +98,7 @@ class SerialIO:
 
                 strings = l.replace("\r\n", "").split("\t")
                 vals = [int(s) for s in strings]
-                if len(vals) == 13:
+                if len(vals) == len(self.columns)-1:
                     self.dataBuffer.append([pd.Timestamp.now(), *vals])
             except:
                 pass

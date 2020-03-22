@@ -57,7 +57,7 @@ void Controller::setup(int steering_pin, int acceleration_pin) {
   pinMode(13, OUTPUT);
   steering.attach(steering_pin);
   acceleration.attach(acceleration_pin);
-  saveMode = true;
+  saveMode = false;
 }
 
 void Controller::updateDriveState() {
@@ -261,13 +261,13 @@ void Controller::setParameter(int id, int value) {
     p_001_normal_pitch_min = 10.0f * value;
   }
   if (id == 2) {
-    p_002_pormal_pitch_ratio = 0.3f * value;
+    p_002_normal_pitch_ratio = 0.3f * value;
   }
   if (id == 3) {
-    p_003_pormal_acc_offset = 0.012f * value;
+    p_003_normal_acc_offset = 0.012f * value;
   }
   if (id == 4) {
-    p_004_pormal_acc_min = 0.002f * value;
+    p_004_normal_acc_min = 0.002f * value;
   }
 }
 

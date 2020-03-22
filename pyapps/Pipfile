@@ -9,8 +9,14 @@ setuptools = "*"
 dash = "*"
 dash_daq = "*"
 platformio = "*"
+jupyter = "*"
+hyperopt = "*"
+lightgbm = "*"
+scikit-learn = "*"
 
 [dev-packages]
+pylint = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3"

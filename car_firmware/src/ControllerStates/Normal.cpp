@@ -47,12 +47,12 @@ void Controller::updateNormal() {
     acceleration_ratio =
         0.175 + 0.125 * tanh(2.0 - speed) - 0.1 * tanh(1.0 - speed * 2);
 
-    if (acceleration_receiver > 50 && pitch_av < -1000.0f) {
-      acceleration_ratio =
-          min(max(min(1, 1.1 + pitch_ch / 10.0f), 0.2), acceleration_ratio);
-    } else if (acceleration_receiver < -50 && pitch_av > 1000.0f) {
+    if (acceleration_receiver > 50 && pitch_av > 1000.0f) {
       acceleration_ratio =
           min(max(min(1, 1.1 - pitch_ch / 10.0f), 0.2), acceleration_ratio);
+    } else if (acceleration_receiver < -50 && pitch_av < -1000.0f) {
+      acceleration_ratio =
+          min(max(min(1, 1.1 + pitch_ch / 10.0f), 0.2), acceleration_ratio);
     }
     if (speed < 0.07) {
       acceleration_ratio = 1.0;
@@ -68,15 +68,15 @@ void Controller::updateNormal() {
     steering_ratio = 1.0;
 
     // optimize acceleration
-    if (acceleration_receiver > 50 && pitch_av < -p_001_normal_pitch_min) {
+    if (acceleration_receiver > 50 && pitch_av > p_001_normal_pitch_min) {
       acceleration_ratio = max(
-          min(1, p_003_pormal_acc_offset + pitch_ch / p_002_pormal_pitch_ratio),
-          p_004_pormal_acc_min);
+          min(1, p_003_normal_acc_offset - pitch_ch / p_002_normal_pitch_ratio),
+          p_004_normal_acc_min);
     } else if (acceleration_receiver < -50 &&
-               pitch_av > p_001_normal_pitch_min) {
+               pitch_av < -p_001_normal_pitch_min) {
       acceleration_ratio = max(
-          min(1, p_003_pormal_acc_offset - pitch_ch / p_002_pormal_pitch_ratio),
-          p_004_pormal_acc_min);
+          min(1, p_003_normal_acc_offset + pitch_ch / p_002_normal_pitch_ratio),
+          p_004_normal_acc_min);
     } else {
       acceleration_ratio = 1.0;
     }
