@@ -1,6 +1,6 @@
 /* This file is part of VK RcCat.
  *
- * Copyright 2019 Viktor Krueckl (viktor@krueckl.de). All Rights Reserved.
+ * Copyright 2020 Viktor Krueckl (viktor@krueckl.de). All Rights Reserved.
  *
  * Based on SparkFun library:
  * https://github.com/sparkfun/SparkFun_ToF_Range_Finder-VL6180_Arduino_Library

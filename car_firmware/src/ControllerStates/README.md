@@ -2,7 +2,7 @@
 
 # RcCat Controller States
 
-The `RcCat::Controller` knows 5 different state types, which are automatically chosen depending selected sensor data. 
+The `RcCat::Controller` knows 5 different state types, which are automatically chosen depending on sensor data. 
 
 ```cpp
 enum DriveStateType {
@@ -13,7 +13,7 @@ enum DriveStateType {
      external = 5
      };
 ```
-Depending on the status of the `RcCat::Controller`, either the commands from the remote control are passed (ddriveirectly or modified) to the steering servo or the speed controller, or the control of the car is completely taken over by the `RcCat::Controller`. 
+Depending on the status of the `RcCat::Controller`, either the commands from the remote control are passed (directly or modified) to the steering servo or the speed controller, or the control of the car is completely taken over by the `RcCat::Controller`. 
 Below is a minimalistic overview of the different drive states.
 
 ## Normal
@@ -27,8 +27,7 @@ Outside of the `saveMode` the pitch data of the gyro is used to reduce the throt
 The `DriveStateType::elevated` is entered when the ground distance is high and the speed of the car almost  zero. In this state the car steers straight ahead and stops the main motor to prepare for the possible upcoming `DriveStateType::falling`.
 
 ## Falling
-Once the car is in the `DriveStateType::falling` the main moter is used in a pid control loop to bring the car the level befor reaching the ground.
-The next state is `DriveStateType::normal` once the car reaches the ground.
+Once the car is in the `DriveStateType::falling` the main is used to bring the car the level befor reaching the ground. This is done via a small neural network. The next state is `DriveStateType::normal` once the car reaches the ground.
 
 
 ## Jumping

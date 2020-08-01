@@ -1,6 +1,6 @@
 /* This file is part of VK RcCat.
  *
- * Copyright 2019 Viktor Krueckl (viktor@krueckl.de). All Rights Reserved.
+ * Copyright 2020 Viktor Krueckl (viktor@krueckl.de). All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 #ifndef RCAT_CONTROLLER_H
 #define RCAT_CONTROLLER_H
 
-
 #include <Arduino.h>
 #include <Servo.h>
 
@@ -27,11 +26,10 @@ namespace RcCat
 {
 
 
-  //configuration for running averages
-  #define MEMORY_LENGTH 3
-  #define MINIMAL_ABSOLUTE_GRAVITY 20
-  #define MINIMAL_GROUND_DISTANCE 65
-
+//configuration for running averages
+#define MEMORY_LENGTH 3
+#define MINIMAL_ABSOLUTE_GRAVITY 20
+#define MINIMAL_GROUND_DISTANCE 65
 
   class Controller
   {
@@ -45,7 +43,14 @@ namespace RcCat
     void writeHeadData();
 
   public:
-    enum DriveStateType { normal = 1, falling = 2, elevated = 3, jumping = 4, external=5};
+    enum DriveStateType
+    {
+      normal = 1,
+      falling = 2,
+      elevated = 3,
+      jumping = 4,
+      external = 5
+    };
     DriveStateType driveState;
     Servo steering;
     Servo acceleration;
@@ -69,10 +74,6 @@ namespace RcCat
     unsigned long timer_mem[MEMORY_LENGTH];
 
 
-    unsigned long max_flip_time;
-    int start_fly_pitch;
-
-
   private:
     bool blinkState;
     int blinkCounter;
@@ -87,46 +88,40 @@ namespace RcCat
     float speed;
     float dspeed;
 
-
   private:
     int steering_receiver;
     int acceleration_receiver;
-
 
   private:
     float p_001_normal_pitch_min = 1000.0f;
     float p_002_normal_pitch_ratio = 30.0f;
     float p_003_normal_acc_offset = 1.2f;
     float p_004_normal_acc_min = 0.2f;
-    
 
   private:
-
     void collectData();
 
     void updateDriveState();
 
     //the following functions are moved to extra files in the ControllerStates folder!
     void updateNormal();
-    void updateFalling();
     void updateElevated();
-    void updateJumping();
+    void updateCatBrain();
+
+    void startNormal();
+
 
     void setParameter(int id, int value);
     void commandExternal(int steer, int accel);
     void updateExternal();
 
-    void startNormal();
-    void startJumping();
-    void startFalling();
 
     void writeData();
     void readData();
-
-
+    
   };
 
   extern Controller controller;
 
-}
+} // namespace RcCat
 #endif

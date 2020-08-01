@@ -10,6 +10,12 @@ dash = "*"
 dash_daq = "*"
 platformio = "*"
 jupyter = "*"
+ipykernel = "*"
+
+
+tensorflow = "==2.2.0rc3"
+tensorflow-probability = "==0.9.0"
+
 hyperopt = "*"
 lightgbm = "*"
 scikit-learn = "*"

@@ -1,6 +1,6 @@
 /* This file is part of VK RcCat.
  *
- * Copyright 2019 Viktor Krueckl (viktor@krueckl.de). All Rights Reserved.
+ * Copyright 2020 Viktor Krueckl (viktor@krueckl.de). All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,6 +79,7 @@ void Receiver::attachSpeed(int pinID) {
 
   speed_t_start = 0;
   speed_t_start_old = 0;
+  speed = 0;
 }
 
 unsigned long Receiver::getMicroseconds(int pinID) {
@@ -103,6 +104,7 @@ void Receiver::pinChangeIntISR() {
   if (speed_pin_state_old != speed_pin_state_new) {
     speed_pin_state_old = speed_pin_state_new; // update the state
     if (speed_pin_state_new == HIGH) {
+
       speed_t_start = get_timer; // 0.5us units
       speed_pd = speed_t_start -
                  speed_t_start_old; // 0.5us units, the incoming pulse period
@@ -110,6 +112,7 @@ void Receiver::pinChangeIntISR() {
       speed = 120000.0 / speed_pd;
       dspeed += speed;
       speed_t_start_old = speed_t_start; // 0.5us units; update
+
     } else                               // pin_state_new == LOW
     {
       speed_pulseCounts = get_timer - speed_t_start; // 0.5us units
