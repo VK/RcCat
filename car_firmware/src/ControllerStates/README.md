@@ -31,8 +31,7 @@ Once the car is in the `DriveStateType::falling` the main is used to bring the c
 
 
 ## Jumping
-The `DriveStateType::jumping` is entered when the ground distance is higher than a few centimeters and the speed of the car is sufficiently high.
-In this drive state the control of the car is completely handeled by the `RcCat::Controller`, which tries to level the car with a throttle interventions.
+The `DriveStateType::jumping` is entered when the ground distance is higher than a few centimeters and the speed of the car is sufficiently high. This is done by the same neural network. In the past, two different PID controllers were used for this.
 The controler goes back to `DriveStateType::normal` once the groud distance is small again. 
 
 

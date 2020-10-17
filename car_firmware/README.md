@@ -2,7 +2,7 @@
 
 # VK RcCat Firmware
 
-![Build Car Firmware](https://github.com/VK/PrivateCat/workflows/Build%20Car%20Firmware/badge.svg)
+![Build Car Firmware](https://github.com/VK/RcCat/workflows/Build%20Car%20Firmware/badge.svg)
 
 The main control of RcCat runs on a 5V Arduino Mini Pro. Feel free to use this repo and build your own RcCat firmware optimized for your RC model.
 

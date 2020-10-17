@@ -172,7 +172,7 @@ uint8_t RangeFinder::internalSetup() {
   // Optional settings from datasheet
   // http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00122600.pdf
   setRegister(VL6180X_SYSRANGE_INTERMEASUREMENT_PERIOD,
-              0x09); // Set default ranging inter-measurement period to 0x09 =
+              0x01); // Set default ranging inter-measurement period to 0x09 =
                      // 100ms  0x00 = 10ms
   setRegister(VL6180X_SYSALS_INTERMEASUREMENT_PERIOD,
               0x0A); // Set default ALS inter-measurement period to 100ms
@@ -209,7 +209,7 @@ void RangeFinder::loop() {
 
   unsigned long get_timer = RcCat::timer.getCount();
 
-  if (get_timer > last_timer + 10000l) {
+  if (get_timer > last_timer + 2000l) {
 
     distance = getRegister(VL6180X_RESULT_RANGE_VAL);
     last_timer = get_timer;
