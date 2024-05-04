@@ -29,4 +29,3 @@ Car top view                   |  Car bottom view                   | Monitor Ap
 * **[wlan_repeater](/wlan_repeater):** Serial to Wlan bridge to send telemetry data via wlan during driving and update drive parameters.
 
 * **[pyapps](/pyapps):** Additional python tools to analyze RcCat telemetry data and adjust drive characteristics
-
